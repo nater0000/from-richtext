@@ -47,7 +47,7 @@ turndownService.use(gfm);
 // Capture AI code languages (e.g. <code class="language-python">)
 turndownService.addRule('codeBlocks', {
   filter: (node) => node.nodeName === 'PRE' && node.firstChild?.nodeName === 'CODE',
-  replacement: (content, node) => {
+  replacement: (_content, node) => {
     const codeElement = node.firstChild as HTMLElement;
     const language = (codeElement.className.match(/language-(\S+)/) || [null, ''])[1]; 
     return `\n\n\`\`\`${language}\n${codeElement.textContent || ''}\n\`\`\`\n\n`;
