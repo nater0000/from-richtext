@@ -2,33 +2,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1e1e1e">
     <title>Rich Text to Markdown</title>
   </head>
   <body>
-    <div class="card">
-      <h1>Rich Text to Markdown Converter</h1>
-      <p>Paste rich text directly from Gemini, Google Docs, or webpages. The clipboard's HTML will be automatically intercepted and converted.</p>
+    <div class="app-container">
       
-      <div class="tabs">
-        <button class="tab-btn active" id="tab-markdown">Markdown Editor</button>
-        <button class="tab-btn" id="tab-preview">Live Preview</button>
-      </div>
-
-      <div id="markdown-view" class="view-wrapper active">
-        <textarea id="markdown-area" placeholder="Tap here and paste your rich text..."></textarea>
+      <!-- TOP PANEL: The Editor -->
+      <div class="pane editor-pane">
+        <div class="pane-header">
+          <div class="tabs">
+            <button class="tab-btn active" id="tab-markdown">Markdown</button>
+            <button class="tab-btn" id="tab-original">Original HTML</button>
+          </div>
+          <div class="actions">
+            <button id="sync-scroll-btn" class="icon-btn" title="Toggle Shared Scroll" aria-label="Toggle shared scrolling" style="opacity: 0.4;">🔗</button>
+            <button id="history-btn" class="icon-btn" title="View History" aria-label="View clipboard history">🕒</button>
+            <button id="clear-btn" class="icon-btn" title="Clear All" aria-label="Clear all text">🗑️</button>
+            <button id="max-editor-btn" class="icon-btn" title="Maximize Editor" aria-label="Maximize Editor">⤢</button>
+            <button id="copy-editor-btn" class="action-btn">Copy</button>
+            <button id="save-editor-btn" class="action-btn">Save</button>
+          </div>
+        </div>
         
-        <div class="flex-row">
-          <button id="copy-btn" class="primary-btn">Copy Markdown</button>
-          <button id="clear-btn" class="secondary-btn">Clear</button>
+        <div class="pane-content">
+          <textarea id="markdown-area" placeholder="Tap here and paste your rich text..."></textarea>
+          <textarea id="original-area" class="hidden" placeholder="The raw HTML payload will appear here..." readonly></textarea>
         </div>
       </div>
 
-      <div id="preview-view" class="view-wrapper">
-        <div id="preview-content"></div>
+      <!-- BOTTOM PANEL: The Live Preview -->
+      <div class="pane preview-pane">
+        <div class="pane-header">
+          <div class="title">Live Preview</div>
+          <div class="actions">
+            <button id="max-preview-btn" class="icon-btn" title="Maximize Preview" aria-label="Maximize Preview">⤢</button>
+            <button id="copy-preview-btn" class="action-btn">Copy Rendered</button>
+          </div>
+        </div>
+        
+        <div class="pane-content">
+          <div id="preview-content"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Clipboard History</h2>
+          <div class="actions" style="align-items: center; display: flex;">
+            <label class="history-toggle" title="Auto-save pastes to local storage">
+              <input type="checkbox" id="enable-history-cb" checked> Auto-Save
+            </label>
+            <button id="clear-history-btn" class="action-btn" style="color: #d73a49; border-color: #d73a49; margin-right: 10px;">Clear Data</button>
+            <button id="close-history-btn" class="icon-btn" aria-label="Close modal">✖</button>
+          </div>
+        </div>
+        <div id="history-list" class="history-list"></div>
       </div>
     </div>
-    
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
